@@ -2,10 +2,17 @@ package com.springbootrestapp.entities;
 
 import java.util.Date;
 
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 public class User {
 
 	private int id;
+	
+	@Size(min = 2, message = "User name length should be at least 2")
 	private String name;
+	
+	@Past
 	private Date birthDate;
 	
 	public User() {

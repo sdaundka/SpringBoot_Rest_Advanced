@@ -2,7 +2,11 @@ package com.springbootrestapp.resource;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,8 +37,13 @@ public class UserResource {
 	}
 	
 	@PostMapping
-	public User saveUser(@RequestBody User user) {
-		return userDaoService.save(user);
+	public EntityModel<User> saveUser(@Valid @RequestBody User user) {
+		User savedUser = userDaoService.save(user);
+		//HATEOAS
+		EntityModel<User> entityModel = EntityModel.of(savedUser);
+		WebMvcLinkBuilder webMvcLinkBuilder = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UserResource.class).getUsers());
+		entityModel.add(webMvcLinkBuilder.withRel("all-users"));
+		return entityModel;
 	}
 	
 	@DeleteMapping("/{id}")
