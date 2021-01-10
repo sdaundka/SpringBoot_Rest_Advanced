@@ -5,11 +5,16 @@ import java.util.Date;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel
 public class User {
 
 	private int id;
 	
 	@Size(min = 2, message = "User name length should be at least 2")
+	@ApiModelProperty(notes = "User name length should be at least 2")
 	private String name;
 	
 	@Past
